@@ -1,8 +1,11 @@
+body{
+    font-family: 'Times New Roman', Times, serif;
+    background-color: #252A34;
+}
+
 .titulo {
-    color: antiquewhite;
-    width: 315px;
-    height: 50px;
-    background-color: darkblue;
+    color: #EAEAEA;
+    font-size: 32px;
     display: flex;
 }
 
@@ -15,14 +18,33 @@
     align-items: center;
 }
 
+.subtitulo{
+    color: #EAEAEA;
+    font-size: 24px;
+}
+
+.tarjetas{
+    display: flex;
+    gap:10px
+}
+
 .tarjeta-mascota {
-    width: 100px;
+    width: 180px;
     height: 100px;
-    background-color: beige;
+    background-color: #EAEAEA;
     padding: 10px;
     box-sizing: border-box;
     margin: 10px;
-    border: 1px solid #000;
+    border: 1px solid #08D9D6;
+    border-radius: 20px;
+    display: flex;
+    color: #252A34;
+    justify-content: center;
+    align-items:center;
+}
+
+.tarjeta-mascota img{
+    width: 80px;
 }
 
 input {
