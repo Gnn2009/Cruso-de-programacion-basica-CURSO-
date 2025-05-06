@@ -1,0 +1,32 @@
+.titulo {
+    color: antiquewhite;
+    width: 315px;
+    height: 50px;
+    background-color: darkblue;
+    display: flex;
+}
+
+
+#seleccionar-mascota {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.tarjeta-mascota {
+    width: 100px;
+    height: 100px;
+    background-color: beige;
+    padding: 10px;
+    box-sizing: border-box;
+    margin: 10px;
+    border: 1px solid #000;
+}
+
+input {
+    display: none;
+}
+
+
