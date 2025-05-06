@@ -29,7 +29,7 @@ function seleccionarMascotaJugador() {
     sectionSeleccionarMascota.style.display = 'none'
     
     let sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
-    sectionSeleccionarAtaque.style.display = 'block'
+    sectionSeleccionarAtaque.style.display = 'flex'
     
     let inputHipodoge = document.getElementById('hipodoge')
     let inputCharizard = document.getElementById('Charizard')
@@ -149,7 +149,7 @@ function crearMensajeFinal(resultadoFinal) {
     botonTierra.disabled = true
 
     let sectionReiniciar = document.getElementById('reiniciar')
-    sectionReiniciar.style.display = 'block'
+    sectionReiniciar.style.display = 'flex'
 }
 
 function reiniciarJuego() {
