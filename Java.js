@@ -31,13 +31,13 @@ function seleccionarMascotaJugador() {
     let sectionSeleccionarAtaque = document.getElementById('seleccionar-ataque')
     sectionSeleccionarAtaque.style.display = 'flex'
     
-    let inputHipodoge = document.getElementById('hipodoge')
+    let inputGreninja = document.getElementById('Greninja')
     let inputCharizard = document.getElementById('Charizard')
     let inputVenusaur = document.getElementById('Venusaur')
     let spanMascotaJugador = document.getElementById('mascota-jugador')
     
-    if (inputHipodoge.checked) {
-        spanMascotaJugador.innerHTML = 'Hipodoge'
+    if (inputGreninja.checked) {
+        spanMascotaJugador.innerHTML = 'Greninja'
     } else if (inputCharizard.checked) {
         spanMascotaJugador.innerHTML = 'Charizard'
     } else if (inputVenusaur.checked) {
@@ -54,7 +54,7 @@ function seleccionarMascotaEnemigo() {
     let spanMascotaEnemigo = document.getElementById('mascota-enemigo')
 
     if (mascotaAleatoria == 1) {
-        spanMascotaEnemigo.innerHTML = 'Hipodoge'
+        spanMascotaEnemigo.innerHTML = 'Greninja'
     } else if (mascotaAleatoria == 2) {
         spanMascotaEnemigo.innerHTML = 'Charizard'
     } else {
@@ -125,21 +125,25 @@ function revisarVidas() {
 }
 
 function crearMensaje(resultado) {
-    let sectionMensajes = document.getElementById('mensajes')
-    
-    let parrafo = document.createElement('p')
-    parrafo.innerHTML = 'Tu mascota atacó con ' + ataqueJugador + ', las mascota del enemigo atacó con ' + ataqueEnemigo + '- ' + resultado
+    let sectionMensajes = document.getElementById('resultado')
+    let ataquesJugador = document.getElementById('ataques-jugador')
+    let ataquesEnemigo = document.getElementById('ataques-enemigo')
 
-    sectionMensajes.appendChild(parrafo)
+    let nuevoAtaqueJugador = document.createElement('p')
+    let nuevoAtaqueEnemigo = document.createElement('p')
+
+    sectionMensajes.innerHTML = resultado
+    nuevoAtaqueJugador.innerHTML = ataqueJugador
+    nuevoAtaqueEnemigo.innerHTML = ataqueEnemigo
+
+    ataquesJugador.appendChild(nuevoAtaqueJugador)
+    ataquesEnemigo.appendChild(nuevoAtaqueEnemigo)
 }
 
 function crearMensajeFinal(resultadoFinal) {
-    let sectionMensajes = document.getElementById('mensajes')
+    let sectionMensajes = document.getElementById('resultado')
     
-    let parrafo = document.createElement('p')
-    parrafo.innerHTML = resultadoFinal
-
-    sectionMensajes.appendChild(parrafo)
+    sectionMensajes.innerHTML = resultadoFinal
 
     let botonFuego = document.getElementById('boton-fuego')
     botonFuego.disabled = true
