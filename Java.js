@@ -22,6 +22,8 @@ const sectionMensajes = document.getElementById('resultado')
 const ataquesJugador = document.getElementById('ataques-jugador')
 const ataquesEnemigo = document.getElementById('ataques-enemigo')
 
+let mokepones = []
+
 let ataqueJugador
 let ataqueEnemigo
 let vidasJugador = 3
@@ -35,9 +37,13 @@ class Mokepon{
     }
 }
 
-let hipodoge = new Mokepon("Grenninja", "Greninja.png", 3)
+let Greninja = new Mokepon("Grenninja", "Greninja.png", 3)
 let Charizard = new Mokepon("Charizard", "Charizard.png", 3)
 let Venusaur = new Mokepon("Venuzaur", "Venuzaur.png", 3)
+
+mokepones.push(Greninja, Charizard, Venusaur)
+
+console.log(mokepones)
 
 function iniciarJuego() {
     sectionSeleccionarAtaque.style.display = 'none'
