@@ -34,6 +34,7 @@ class Mokepon{
         this.nombre = nombre
         this.foto = foto
         this.vida = vida
+        this.ataques = []
     }
 }
 
@@ -41,9 +42,29 @@ let Greninja = new Mokepon("Grenninja", "Greninja.png", 3)
 let Charizard = new Mokepon("Charizard", "Charizard.png", 3)
 let Venusaur = new Mokepon("Venuzaur", "Venuzaur.png", 3)
 
-mokepones.push(Greninja, Charizard, Venusaur)
+Greninja.ataques.push(
+    {nombre: "Hidropulso", id:"boton-agua"},
+    {nombre: "Hidropulso", id:"boton-agua"},
+    {nombre: "Hidropulso", id:"boton-agua"},
+    {nombre: "Lanzallamas", id:"boton-fuego"},
+    {nombre: "Tetratemblor", id:"boton-tierra"},
+)
 
-console.log(mokepones)
+Charizard.ataques.push(
+    {nombre: "Lanzallamas", id:"boton-fuego"},
+    {nombre: "Lanzallamas", id:"boton-fuego"},
+    {nombre: "Lanzallamas", id:"boton-fuego"},
+    {nombre: "Hidropulso", id:"boton-agua"},
+    {nombre: "Tetratemblor", id:"boton-tierra"},
+)
+
+Venusaur.ataques.push(
+    {nombre: "Tetratemblor", id:"boton-tierra"},
+    {nombre: "Tetratemblor", id:"boton-tierra"},
+    {nombre: "Tetratemblor", id:"boton-tierra"},
+    {nombre: "Hidropulso", id:"boton-agua"},
+    {nombre: "Lanzallamas", id:"boton-fuego"},
+)
 
 function iniciarJuego() {
     sectionSeleccionarAtaque.style.display = 'none'
