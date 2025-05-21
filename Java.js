@@ -21,11 +21,13 @@ const spanVidasEnemigo = document.getElementById('vidas-enemigo')
 const sectionMensajes = document.getElementById('resultado')
 const ataquesJugador = document.getElementById('ataques-jugador')
 const ataquesEnemigo = document.getElementById('ataques-enemigo')
+const contenedorTarjetas = document.getElementById("contenedor-tarjetas")
 
 let mokepones = []
 
 let ataqueJugador
 let ataqueEnemigo
+let opcionDeMokepones
 let vidasJugador = 3
 let vidasEnemigo = 3
 
@@ -66,9 +68,24 @@ Venusaur.ataques.push(
     {nombre: "Lanzallamas", id:"boton-fuego"},
 )
 
+mokepones.push(Greninja,Charizard,Venusaur  )
+
 function iniciarJuego() {
     sectionSeleccionarAtaque.style.display = 'none'
+    mokepones.forEach(Mokepon => {
+        opcionDeMokepones = `
+        <input type="radio" name="mascota" id=${Mokepon.nombre} />
+            <label class="tarjeta-mascota" for=${Mokepon.nombre}>
+                <p>${Mokepon.nombre}</p>
+                <img src=${Mokepon.foto}
+                } alt=${Mokepon.nombre}>
+            </label>
+        `
+        contenedorTarjetas.innerHTML += opcionDeMokepones
+    });
+
     sectionReiniciar.style.display = 'none'
+    
     botonMascotaJugador.addEventListener('click', seleccionarMascotaJugador)
     botonFuego.addEventListener('click', ataqueFuego)
     botonAgua.addEventListener('click', ataqueAgua)
