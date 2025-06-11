@@ -36,6 +36,9 @@ let botonAgua
 let botonTierra 
 let botones = []
 
+let indexAtaqueJugador
+let indexAtaueEnemigo
+
 
 let vidasJugador = 3
 let vidasEnemigo = 3
@@ -105,6 +108,11 @@ function iniciarJuego() {
 }
 
 function seleccionarMascotaJugador() {
+    if (!inputGreninja.checked && !inputCharizard.checked && !inputVenusaur.checked) {
+        alert('Selecciona una mascota')
+        return
+    }
+
     sectionSeleccionarMascota.style.display = 'none'
     sectionSeleccionarAtaque.style.display = 'flex'
     if (inputGreninja.checked) {
@@ -116,12 +124,9 @@ function seleccionarMascotaJugador() {
     } else if (inputVenusaur.checked) {
         spanMascotaJugador.innerHTML = inputVenusaur.id
         mascotaJugador = inputVenusaur.id
-    } else {
-        alert('Selecciona una mascota')
     }
 
     extraerAtaques(mascotaJugador)
-
     seleccionarMascotaEnemigo()
 }
 
@@ -154,22 +159,23 @@ function secuenciaDeAtaque(){
     botones.forEach(boton => {
         boton.addEventListener('click', (e) => {
             if(e.target.textContent == 'Hidropulso'){
-                ataqueJugador.push('Agua')
+                ataqueJugador.push('Hidropulso')
                 console.log(ataqueJugador)
                 boton.style.backgroundColor = '#112f58'
             }else if(e.target.textContent == 'Lanzallamas'){
-                ataqueJugador.push('Fuego')
+                ataqueJugador.push('Lanzallamas')
                 console.log(ataqueJugador)
                 boton.style.backgroundColor = '#112f58'
             }else if(e.target.textContent == 'Tetratemblor'){
-                ataqueJugador.push('Tierra')
+                ataqueJugador.push('Tetratemblor')
                 console.log(ataqueJugador)
                 boton.style.backgroundColor = '#112f58'
             }
+            ataqueAleatorioEnemigo()
         })
     })
 
-    ataqueAleatorioEnemigo()
+
 }
 
 function seleccionarMascotaEnemigo() {
@@ -185,40 +191,56 @@ function seleccionarMascotaEnemigo() {
 function ataqueAleatorioEnemigo() {
     let ataqueAleatorio = aleatorio(0, ataquesMokeponEnemigo.length -1)
     
-    if (ataqueAleatorio == 0 || 1) {
-        ataqueEnemigo.push('FUEGO')
-    } else if (ataqueAleatorio == 3 || 4) {
-        ataqueEnemigo.push('AGUA')
+    if (ataqueAleatorio === 0 || ataqueAleatorio === 1) {
+        ataqueEnemigo.push('Lanzallamas')
+    } else if (ataqueAleatorio === 3 || ataqueAleatorio === 4) {
+        ataqueEnemigo.push('Hidropulso')
     } else {
-        ataqueEnemigo.push('TIERRA')
+        ataqueEnemigo.push('Tetratemblor')
     }
 
     console.log(ataqueEnemigo)
-    combate()
+    iniciarPelea()
+}
+
+function iniciarPelea(){
+    if(ataqueJugador.length === 5){
+        combate()
+    }
+}
+
+function indexBothPlayers(jugador, enemigo){
+    indexAtaqueJugador = ataqueJugador[jugador]
+    indexAtaueEnemigo = ataqueEnemigo[enemigo]
 }
 
 function combate() {
-    
-    if(ataqueEnemigo == ataqueJugador) {
-        crearMensaje("EMPATE")
-    } else if(ataqueJugador == 'FUEGO' && ataqueEnemigo == 'TIERRA') {
-        crearMensaje("GANASTE")
-        vidasEnemigo--
-        spanVidasEnemigo.innerHTML = vidasEnemigo
-    } else if(ataqueJugador == 'AGUA' && ataqueEnemigo == 'FUEGO') {
-        crearMensaje("GANASTE")
-        vidasEnemigo--
-        spanVidasEnemigo.innerHTML = vidasEnemigo
-    } else if(ataqueJugador == 'TIERRA' && ataqueEnemigo == 'AGUA') {
-        crearMensaje("GANASTE")
-        vidasEnemigo--
-        spanVidasEnemigo.innerHTML = vidasEnemigo
-    } else {
-        crearMensaje("PERDISTE")
-        vidasJugador--
-        spanVidasJugador.innerHTML = vidasJugador
-    }
 
+    for (let index = 0; index < ataqueJugador.length; index++) {
+        if(ataqueJugador[index] == ataqueEnemigo[index]){
+            indexBothPlayers(index, index)
+            crearMensaje("EMPATE")
+        }else if(ataqueJugador[index] == "Lanzallamas" && ataqueEnemigo[index] == "Tetratemblor"){
+            indexBothPlayers(index, index)
+            crearMensaje("GANASTE")
+            vidasEnemigo--
+            spanVidasEnemigo.innerHTML = vidasEnemigo
+        }else if(ataqueJugador[index] == "Tetrateblor" && ataqueEnemigo[index] == "Hidropulso"){
+            indexBothPlayers(index, index)
+            crearMensaje("GANASTE")
+            vidasEnemigo--
+            spanVidasEnemigo.innerHTML = vidasEnemigo
+        }else if(ataqueJugador[index] == "Hidropulso" && ataqueEnemigo[index] == "Lanzallamas"){
+            indexBothPlayers(index, index)
+            crearMensaje("GANASTE")
+            vidasEnemigo--
+            spanVidasEnemigo.innerHTML = vidasEnemigo
+        }else{
+            indexBothPlayers(index, index)
+            crearMensaje("EMPATE")
+        }
+        
+    }
     revisarVidas()
 }
 
@@ -237,8 +259,8 @@ function crearMensaje(resultado) {
     let nuevoAtaqueEnemigo = document.createElement('p')
 
     sectionMensajes.innerHTML = resultado
-    nuevoAtaqueJugador.innerHTML = ataqueJugador
-    nuevoAtaqueEnemigo.innerHTML = ataqueEnemigo
+    nuevoAtaqueJugador.innerHTML = indexAtaqueJugador
+    nuevoAtaqueEnemigo.innerHTML = indexAtaueEnemigo
 
     ataquesJugador.appendChild(nuevoAtaqueJugador)
     ataquesEnemigo.appendChild(nuevoAtaqueEnemigo)
