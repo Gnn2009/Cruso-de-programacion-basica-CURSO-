@@ -17,6 +17,9 @@ const ataquesEnemigo = document.getElementById('ataques-enemigo')
 const contenedorTarjetas = document.getElementById("contenedor-tarjetas")
 const contenedorAtaques = document.getElementById("contenedor-ataques")
 
+const sectionVerMapa = document.getElementById("ver-mapa")
+const mapa = document.getElementById("mapa")
+
 var mokepones = []
 
 var ataqueJugador = []
@@ -43,6 +46,8 @@ var victoriasJugador = 0
 var victoriasEnemigo = 0
 var vidasJugador = 3
 var vidasEnemigo = 3
+
+var lienzo = mapa.getContext("2d")
 
 class Mokepon{
     constructor(nombre, foto, vida){
@@ -85,6 +90,8 @@ mokepones.push(Greninja,Charizard,Venusaur  )
 
 function iniciarJuego() {
     sectionSeleccionarAtaque.style.display = 'none'
+    sectionVerMapa.style.display = "none"
+
     mokepones.forEach(Mokepon => {
         opcionDeMokepones = `
         <input type="radio" name="mascota" id=${Mokepon.nombre} />
@@ -115,7 +122,18 @@ function seleccionarMascotaJugador() {
     }
 
     sectionSeleccionarMascota.style.display = 'none'
-    sectionSeleccionarAtaque.style.display = 'flex'
+    sectionVerMapa.style.display = "flex"
+    let imagenChariazrd = new Image()
+    imagenChariazrd.src = Charizard.foto
+    lienzo.drawImage(
+        imagenChariazrd,
+        20,
+        40,
+        100,
+        100
+    )
+    //sectionSeleccionarAtaque.style.display = 'flex'
+
     if (inputGreninja.checked) {
         spanMascotaJugador.innerHTML = inputGreninja.id
         mascotaJugador = inputGreninja.id
