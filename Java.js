@@ -17,31 +17,32 @@ const ataquesEnemigo = document.getElementById('ataques-enemigo')
 const contenedorTarjetas = document.getElementById("contenedor-tarjetas")
 const contenedorAtaques = document.getElementById("contenedor-ataques")
 
-let mokepones = []
+var mokepones = []
 
-let ataqueJugador = []
-let ataqueEnemigo= []
+var ataqueJugador = []
+var ataqueEnemigo= []
 
-let opcionDeMokepones
-let inputGreninja 
-let inputCharizard
-let inputVenusaur
+var opcionDeMokepones
+var inputGreninja 
+var inputCharizard
+var inputVenusaur
 
-let mascotaJugador
-let ataquesMokepon
-let ataquesMokeponEnemigo
+var mascotaJugador
+var ataquesMokepon
+var ataquesMokeponEnemigo
 
-let botonFuego 
-let botonAgua 
-let botonTierra 
-let botones = []
+var botonFuego 
+var botonAgua 
+var botonTierra 
+var botones = []
 
-let indexAtaqueJugador
-let indexAtaueEnemigo
+var indexAtaqueJugador
+var indexAtaueEnemigo
 
-
-let vidasJugador = 3
-let vidasEnemigo = 3
+var victoriasJugador = 0
+var victoriasEnemigo = 0
+var vidasJugador = 3
+var vidasEnemigo = 3
 
 class Mokepon{
     constructor(nombre, foto, vida){
@@ -162,14 +163,17 @@ function secuenciaDeAtaque(){
                 ataqueJugador.push('Hidropulso')
                 console.log(ataqueJugador)
                 boton.style.backgroundColor = '#112f58'
+                boton.disabled = true
             }else if(e.target.textContent == 'Lanzallamas'){
                 ataqueJugador.push('Lanzallamas')
                 console.log(ataqueJugador)
                 boton.style.backgroundColor = '#112f58'
+                boton.disabled = true
             }else if(e.target.textContent == 'Tetratemblor'){
                 ataqueJugador.push('Tetratemblor')
                 console.log(ataqueJugador)
                 boton.style.backgroundColor = '#112f58'
+                boton.disabled = true
             }
             ataqueAleatorioEnemigo()
         })
@@ -223,21 +227,23 @@ function combate() {
         }else if(ataqueJugador[index] == "Lanzallamas" && ataqueEnemigo[index] == "Tetratemblor"){
             indexBothPlayers(index, index)
             crearMensaje("GANASTE")
-            vidasEnemigo--
-            spanVidasEnemigo.innerHTML = vidasEnemigo
+            victoriasJugador++
+            spanVidasJugador.innerHTML = victoriasJugador
         }else if(ataqueJugador[index] == "Tetrateblor" && ataqueEnemigo[index] == "Hidropulso"){
             indexBothPlayers(index, index)
             crearMensaje("GANASTE")
-            vidasEnemigo--
-            spanVidasEnemigo.innerHTML = vidasEnemigo
+            victoriasJugador++
+            spanVidasJugador.innerHTML = victoriasJugador
         }else if(ataqueJugador[index] == "Hidropulso" && ataqueEnemigo[index] == "Lanzallamas"){
             indexBothPlayers(index, index)
             crearMensaje("GANASTE")
-            vidasEnemigo--
-            spanVidasEnemigo.innerHTML = vidasEnemigo
+            victoriasJugador++
+            spanVidasJugador.innerHTML = victoriasJugador
         }else{
             indexBothPlayers(index, index)
-            crearMensaje("EMPATE")
+            crearMensaje("PERDISTE")
+            victoriasEnemigo++
+            spanVidasEnemigo.innerHTML = victoriasEnemigo
         }
         
     }
