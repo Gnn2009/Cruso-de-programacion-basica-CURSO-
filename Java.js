@@ -48,6 +48,7 @@ var vidasJugador = 3
 var vidasEnemigo = 3
 
 var lienzo = mapa.getContext("2d")
+var intervalo
 
 class Mokepon{
     constructor(nombre, foto, vida){
@@ -61,6 +62,8 @@ class Mokepon{
         this.alto = 80
         this.mapaFoto = new Image()
         this.mapaFoto.src = foto
+        this.velocidadX = 0
+        this.velocidadY = 0
     }
 }
 
@@ -129,6 +132,7 @@ function seleccionarMascotaJugador() {
 
     sectionSeleccionarMascota.style.display = 'none'
     sectionVerMapa.style.display = "flex"
+    intervalo = setInterval(pintarMokepones, 100)
     //sectionSeleccionarAtaque.style.display = 'flex'
 
     if (inputGreninja.checked) {
@@ -307,6 +311,8 @@ function aleatorio(min, max) {
 }
 
 function pintarMokepones(){
+    Greninja.x += Greninja.velocidadX
+    Greninja.y += Greninja.velocidadY   
     lienzo.clearRect(0, 0,mapa.width,mapa.height)
     lienzo.drawImage(
         Greninja.mapaFoto,
@@ -317,8 +323,26 @@ function pintarMokepones(){
     )
 }
 
-function moverGreninja(){
-    Greninja.x += 10
+function moverDerecha(){
+    Greninja.velocidadX = 5 
+    pintarMokepones()
+}
+function moverIzquierda(){
+    Greninja.velocidadX = -5
+    pintarMokepones()
+}
+function moverArriba(){
+    Greninja.velocidadY = -5
+    pintarMokepones()
+}
+function moverAbajo(){
+    Greninja.velocidadY = 5
+    pintarMokepones()
+}
+
+function detenerMovimiento(){
+    Greninja.velocidadX = 0
+    Greninja.velocidadY = 0
     pintarMokepones()
 }
 

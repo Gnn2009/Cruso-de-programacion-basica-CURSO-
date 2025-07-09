@@ -23,7 +23,10 @@
             <h1 class="titulo">Recorre el mapa con tu mokepon</h1>
             <canvas id="mapa">
             </canvas>
-            <button onclick="moverGreninja()">Mover</button>
+            <button onmouseup="detenerMovimiento()" onmousedown="moverArriba()">Mover Arriba</button>
+            <button onmouseup="detenerMovimiento()" onmousedown="moverAbajo()">Mover Abajo</button>
+            <button onmouseup="detenerMovimiento()" onmousedown="moverIzquierda()">Mover Izquierda</button>
+            <button onmouseup="detenerMovimiento()" onmousedown="moverDerecha()">Mover Derecha</button>
         </section>
 
         <section id="seleccionar-ataque">
