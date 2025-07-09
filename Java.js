@@ -55,12 +55,18 @@ class Mokepon{
         this.foto = foto
         this.vida = vida
         this.ataques = []
+        this.x = 20
+        this.y = 30
+        this.ancho = 80
+        this.alto = 80
+        this.mapaFoto = new Image()
+        this.mapaFoto.src = foto
     }
 }
 
-let Greninja = new Mokepon("Greninja", "Greninja.png", 3)
-let Charizard = new Mokepon("Charizard", "Charizard.png", 3)
-let Venusaur = new Mokepon("Venuzaur", "Venuzaur.png", 3)
+let Greninja = new Mokepon("Greninja", "Greninja.png", 5)
+let Charizard = new Mokepon("Charizard", "Charizard.png", 5)
+let Venusaur = new Mokepon("Venuzaur", "Venuzaur.png", 5)
 
 Greninja.ataques.push(
     {nombre: "Hidropulso", id:"boton-agua"},
@@ -123,15 +129,6 @@ function seleccionarMascotaJugador() {
 
     sectionSeleccionarMascota.style.display = 'none'
     sectionVerMapa.style.display = "flex"
-    let imagenChariazrd = new Image()
-    imagenChariazrd.src = Charizard.foto
-    lienzo.drawImage(
-        imagenChariazrd,
-        20,
-        40,
-        100,
-        100
-    )
     //sectionSeleccionarAtaque.style.display = 'flex'
 
     if (inputGreninja.checked) {
@@ -307,6 +304,22 @@ function reiniciarJuego() {
 
 function aleatorio(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+function pintarMokepones(){
+    lienzo.clearRect(0, 0,mapa.width,mapa.height)
+    lienzo.drawImage(
+        Greninja.mapaFoto,
+        Greninja.x,
+        Greninja.y,
+        Greninja.ancho,
+        Greninja.alto
+    )
+}
+
+function moverGreninja(){
+    Greninja.x += 10
+    pintarMokepones()
 }
 
 window.addEventListener('load', iniciarJuego)
