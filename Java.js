@@ -100,6 +100,7 @@ mokepones.push(Greninja,Charizard,Venusaur  )
 function iniciarJuego() {
     sectionSeleccionarAtaque.style.display = 'none'
     sectionVerMapa.style.display = "none"
+    
 
     mokepones.forEach(Mokepon => {
         opcionDeMokepones = `
@@ -129,11 +130,10 @@ function seleccionarMascotaJugador() {
         alert('Selecciona una mascota')
         return
     }
-
+       
+    //sectionSeleccionarAtaque.style.display = 'flex'
     sectionSeleccionarMascota.style.display = 'none'
     sectionVerMapa.style.display = "flex"
-    intervalo = setInterval(pintarMokepones, 100)
-    //sectionSeleccionarAtaque.style.display = 'flex'
 
     if (inputGreninja.checked) {
         spanMascotaJugador.innerHTML = inputGreninja.id
@@ -148,6 +148,7 @@ function seleccionarMascotaJugador() {
 
     extraerAtaques(mascotaJugador)
     seleccionarMascotaEnemigo()
+   iniciarMapa()
 }
 
 function extraerAtaques(mascotaJugador) {
@@ -344,6 +345,29 @@ function detenerMovimiento(){
     Greninja.velocidadX = 0
     Greninja.velocidadY = 0
     pintarMokepones()
+}
+
+function presionarTecla(event){
+    switch(event.key){
+        case 'ArrowUp':
+            moverArriba()
+            break
+        case 'ArrowDown':
+            moverAbajo()
+            break
+        case 'ArrowLeft':
+            moverIzquierda()
+            break
+        case 'ArrowRight':
+            moverDerecha()
+            break
+    }
+}
+
+function iniciarMapa(){
+    intervalo = setInterval(pintarMokepones, 100)
+    window.addEventListener('keydown', presionarTecla)
+    window.addEventListener('keyup', detenerMovimiento)
 }
 
 window.addEventListener('load', iniciarJuego)
