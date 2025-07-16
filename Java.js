@@ -31,6 +31,7 @@ var inputCharizard
 var inputVenusaur
 
 var mascotaJugador
+var mascotaJugadorObjeto
 var ataquesMokepon
 var ataquesMokeponEnemigo
 
@@ -49,6 +50,8 @@ var vidasEnemigo = 3
 
 var lienzo = mapa.getContext("2d")
 var intervalo
+var mapabkg = new Image()
+mapabkg.src = "mokemap.png"
 
 class Mokepon{
     constructor(nombre, foto, vida){
@@ -148,7 +151,7 @@ function seleccionarMascotaJugador() {
 
     extraerAtaques(mascotaJugador)
     seleccionarMascotaEnemigo()
-   iniciarMapa()
+        iniciarMapa()
 }
 
 function extraerAtaques(mascotaJugador) {
@@ -311,40 +314,48 @@ function aleatorio(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-function pintarMokepones(){
-    Greninja.x += Greninja.velocidadX
-    Greninja.y += Greninja.velocidadY   
+function pintarCanvas(){
+    mascotaJugadorObjeto.x += mascotaJugadorObjeto.velocidadX
+    mascotaJugadorObjeto.y += mascotaJugadorObjeto.velocidadY   
     lienzo.clearRect(0, 0,mapa.width,mapa.height)
     lienzo.drawImage(
-        Greninja.mapaFoto,
-        Greninja.x,
-        Greninja.y,
-        Greninja.ancho,
-        Greninja.alto
+    mapabkg,
+    0,
+    0,
+    mapa.width,
+    mapa.height
+
+    )
+    lienzo.drawImage(
+        mascotaJugadorObjeto.mapaFoto,
+        mascotaJugadorObjeto.x,
+        mascotaJugadorObjeto.y,
+        mascotaJugadorObjeto.ancho,
+        mascotaJugadorObjeto.alto
     )
 }
 
 function moverDerecha(){
-    Greninja.velocidadX = 5 
-    pintarMokepones()
+    mascotaJugadorObjeto.velocidadX = 5 
+    pintarCanvas()
 }
 function moverIzquierda(){
-    Greninja.velocidadX = -5
-    pintarMokepones()
+    mascotaJugadorObjeto.velocidadX = -5
+    pintarCanvas()
 }
 function moverArriba(){
-    Greninja.velocidadY = -5
-    pintarMokepones()
+    mascotaJugadorObjeto.velocidadY = -5
+    pintarCanvas()
 }
 function moverAbajo(){
-    Greninja.velocidadY = 5
-    pintarMokepones()
+    mascotaJugadorObjeto.velocidadY = 5
+    pintarCanvas()
 }
 
 function detenerMovimiento(){
-    Greninja.velocidadX = 0
-    Greninja.velocidadY = 0
-    pintarMokepones()
+    mascotaJugadorObjeto.velocidadX = 0
+    mascotaJugadorObjeto.velocidadY = 0
+    pintarCanvas()
 }
 
 function presionarTecla(event){
@@ -365,9 +376,20 @@ function presionarTecla(event){
 }
 
 function iniciarMapa(){
-    intervalo = setInterval(pintarMokepones, 100)
+    mapa.width = 320
+    mapa.height = 240
+    mascotaJugadorObjeto = obtenerObjetoMascota(mascotaJugador)
+    intervalo = setInterval(pintarCanvas, 100)
     window.addEventListener('keydown', presionarTecla)
     window.addEventListener('keyup', detenerMovimiento)
+}
+
+function obtenerObjetoMascota(){
+    for (let i = 0; i < mokepones.length; i++) {
+        if(mascotaJugador == mokepones[i].nombre){
+            return mokepones[i]
+        }
+    }
 }
 
 window.addEventListener('load', iniciarJuego)
