@@ -54,25 +54,40 @@ var mapabkg = new Image()
 mapabkg.src = "mokemap.png"
 
 class Mokepon{
-    constructor(nombre, foto, vida){
+    constructor(nombre, foto, vida,fotoMapa, x = 10, y = 10){
         this.nombre = nombre
         this.foto = foto
         this.vida = vida
         this.ataques = []
-        this.x = 20
-        this.y = 30
-        this.ancho = 80
-        this.alto = 80
+        this.x = x
+        this.y = y
+        this.ancho = 50
+        this.alto = 50
         this.mapaFoto = new Image()
-        this.mapaFoto.src = foto
+        this.mapaFoto.src = fotoMapa
         this.velocidadX = 0
         this.velocidadY = 0
     }
+
+    pintarMokepon(){
+        lienzo.drawImage(
+            this.mapaFoto,
+            this.x,
+            this.y,
+            this.ancho,
+            this.alto
+        )
+    }
 }
 
-let Greninja = new Mokepon("Greninja", "Greninja.png", 5)
-let Charizard = new Mokepon("Charizard", "Charizard.png", 5)
-let Venusaur = new Mokepon("Venuzaur", "Venuzaur.png", 5)
+let Greninja = new Mokepon("Greninja", "Greninja.png", 5, "Greninja.png")
+let Charizard = new Mokepon("Charizard", "Charizard.png", 5,"Charizard.png")
+let Venusaur = new Mokepon("Venuzaur", "Venuzaur.png", 5, "Venuzaur.png")
+
+let GreninjaEnemigo = new Mokepon("Greninja", "Greninja.png", 5, "Greninja.png", 80, 120)
+let CharizardEnemigo = new Mokepon("Charizard", "Charizard.png", 5,"Charizard.png",150, 95)
+let VenusaurEnemigo = new Mokepon("Venuzaur", "Venuzaur.png", 5, "Venuzaur.png",200, 190)
+
 
 Greninja.ataques.push(
     {nombre: "Hidropulso", id:"boton-agua"},
@@ -326,13 +341,10 @@ function pintarCanvas(){
     mapa.height
 
     )
-    lienzo.drawImage(
-        mascotaJugadorObjeto.mapaFoto,
-        mascotaJugadorObjeto.x,
-        mascotaJugadorObjeto.y,
-        mascotaJugadorObjeto.ancho,
-        mascotaJugadorObjeto.alto
-    )
+    mascotaJugadorObjeto.pintarMokepon()
+    GreninjaEnemigo.pintarMokepon()
+    CharizardEnemigo.pintarMokepon()
+    VenusaurEnemigo.pintarMokepon()
 }
 
 function moverDerecha(){
