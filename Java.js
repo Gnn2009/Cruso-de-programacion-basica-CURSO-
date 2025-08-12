@@ -345,6 +345,11 @@ function pintarCanvas(){
     GreninjaEnemigo.pintarMokepon()
     CharizardEnemigo.pintarMokepon()
     VenusaurEnemigo.pintarMokepon()
+    if(mascotaJugadorObjeto.x !== 0 || mascotaJugadorObjeto !== 0){
+        revisarColision(GreninjaEnemigo)
+        revisarColision(CharizardEnemigo)
+        revisarColision(VenusaurEnemigo)
+    }
 }
 
 function moverDerecha(){
@@ -367,7 +372,6 @@ function moverAbajo(){
 function detenerMovimiento(){
     mascotaJugadorObjeto.velocidadX = 0
     mascotaJugadorObjeto.velocidadY = 0
-    pintarCanvas()
 }
 
 function presionarTecla(event){
@@ -402,6 +406,27 @@ function obtenerObjetoMascota(){
             return mokepones[i]
         }
     }
+}
+
+function revisarColision(enemigo){
+let arribaEnemigo = enemigo.y
+let abajoEnemigo = enemigo.y + enemigo.alto
+let derechaEnemigo = enemigo.x + enemigo.ancho
+let izquierdaEnemigo = enemigo.x
+
+let arribaMascota = mascotaJugadorObjeto.y
+let abajoMascota = mascotaJugadorObjeto.y + mascotaJugadorObjeto.alto
+let derechaMascota = mascotaJugadorObjeto.x + mascotaJugadorObjeto.ancho
+let izquierdaMascota = mascotaJugadorObjeto.x
+
+    if(abajoMascota < arribaEnemigo ||
+        arribaMascota > abajoEnemigo ||
+        derechaMascota < izquierdaEnemigo ||            
+        izquierdaMascota > derechaEnemigo){
+            return
+        }
+    detenerMovimiento()
+    alert("Hay colision con " + enemigo.nombre)
 }
 
 window.addEventListener('load', iniciarJuego)
