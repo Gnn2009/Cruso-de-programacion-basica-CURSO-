@@ -53,16 +53,29 @@ var intervalo
 var mapabkg = new Image()
 mapabkg.src = "mokemap.png"
 
+var alturaBuscada
+var anchoDelMappa = window.innerWidth - 50
+var anchoMaximoDelMapa = 800
+if(anchoDelMappa > anchoMaximoDelMapa){
+    anchoDelMappa = anchoMaximoDelMapa - 50
+}
+alturaBuscada = anchoDelMappa * 600 / 800   
+mapa.width = anchoDelMappa
+mapa.height = alturaBuscada
+
+var anchoMokepones = anchoDelMappa / 8
+var altoMokepones = alturaBuscada / 7
+
 class Mokepon{
-    constructor(nombre, foto, vida,fotoMapa, x = 10, y = 10){
+    constructor(nombre, foto, vida,fotoMapa, ){
         this.nombre = nombre
         this.foto = foto
         this.vida = vida
         this.ataques = []
-        this.x = x
-        this.y = y
-        this.ancho = 50
-        this.alto = 50
+        this.ancho = anchoMokepones
+        this.alto = altoMokepones
+        this.x = aleatorio(0, mapa.width - this.ancho)
+        this.y = aleatorio(0, mapa.height - this.alto)
         this.mapaFoto = new Image()
         this.mapaFoto.src = fotoMapa
         this.velocidadX = 0
@@ -84,9 +97,9 @@ let Greninja = new Mokepon("Greninja", "Greninja.png", 5, "Greninja.png")
 let Charizard = new Mokepon("Charizard", "Charizard.png", 5,"Charizard.png")
 let Venusaur = new Mokepon("Venuzaur", "Venuzaur.png", 5, "Venuzaur.png")
 
-let GreninjaEnemigo = new Mokepon("Greninja", "Greninja.png", 5, "Greninja.png", 80, 120)
-let CharizardEnemigo = new Mokepon("Charizard", "Charizard.png", 5,"Charizard.png",150, 95)
-let VenusaurEnemigo = new Mokepon("Venuzaur", "Venuzaur.png", 5, "Venuzaur.png",200, 190)
+let GreninjaEnemigo = new Mokepon("Greninja", "Greninja.png", 5, "Greninja.png",)
+let CharizardEnemigo = new Mokepon("Charizard", "Charizard.png", 5,"Charizard.png",)
+let VenusaurEnemigo = new Mokepon("Venuzaur", "Venuzaur.png", 5, "Venuzaur.png",)
 
 
 Greninja.ataques.push(
@@ -239,7 +252,8 @@ function seleccionarMascotaEnemigo(enemigo) {
 
 function ataqueAleatorioEnemigo() {
     let ataqueAleatorio = aleatorio(0, ataquesMokeponEnemigo.length - 1)
-    ataqueEnemigo.push(ataquesMokeponEnemigo[ataqueAleatorio].nombre)
+    let ataqueSeleccionado = ataquesMokeponEnemigo.splice(ataqueAleatorio, 1)[0]
+    ataqueEnemigo.push(ataqueSeleccionado.nombre)
     console.log(ataqueEnemigo)
     iniciarPelea()
 }
@@ -391,8 +405,6 @@ function presionarTecla(event){
 }
 
 function iniciarMapa(){
-    mapa.width = 320
-    mapa.height = 240
     mascotaJugadorObjeto = obtenerObjetoMascota(mascotaJugador)
     intervalo = setInterval(pintarCanvas, 100)
     window.addEventListener('keydown', presionarTecla)
