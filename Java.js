@@ -96,6 +96,13 @@ Greninja.ataques.push(
     {nombre: "Lanzallamas", id:"boton-fuego"},
     {nombre: "Tetratemblor", id:"boton-tierra"},
 )
+GreninjaEnemigo.ataques.push(
+    {nombre: "Hidropulso", id:"boton-agua"},
+    {nombre: "Hidropulso", id:"boton-agua"},
+    {nombre: "Hidropulso", id:"boton-agua"},
+    {nombre: "Lanzallamas", id:"boton-fuego"},
+    {nombre: "Tetratemblor", id:"boton-tierra"},
+)
 
 Charizard.ataques.push(
     {nombre: "Lanzallamas", id:"boton-fuego"},
@@ -104,7 +111,13 @@ Charizard.ataques.push(
     {nombre: "Hidropulso", id:"boton-agua"},
     {nombre: "Tetratemblor", id:"boton-tierra"},
 )
-
+CharizardEnemigo.ataques.push(
+    {nombre: "Lanzallamas", id:"boton-fuego"},
+    {nombre: "Lanzallamas", id:"boton-fuego"},
+    {nombre: "Lanzallamas", id:"boton-fuego"},
+    {nombre: "Hidropulso", id:"boton-agua"},
+    {nombre: "Tetratemblor", id:"boton-tierra"},
+)
 Venusaur.ataques.push(
     {nombre: "Tetratemblor", id:"boton-tierra"},
     {nombre: "Tetratemblor", id:"boton-tierra"},
@@ -112,21 +125,25 @@ Venusaur.ataques.push(
     {nombre: "Hidropulso", id:"boton-agua"},
     {nombre: "Lanzallamas", id:"boton-fuego"},
 )
-
+VenusaurEnemigo .ataques.push(
+    {nombre: "Tetratemblor", id:"boton-tierra"},
+    {nombre: "Tetratemblor", id:"boton-tierra"},
+    {nombre: "Tetratemblor", id:"boton-tierra"},
+    {nombre: "Hidropulso", id:"boton-agua"},
+    {nombre: "Lanzallamas", id:"boton-fuego"},
+)
 mokepones.push(Greninja,Charizard,Venusaur  )
 
 function iniciarJuego() {
     sectionSeleccionarAtaque.style.display = 'none'
     sectionVerMapa.style.display = "none"
-    
 
     mokepones.forEach(Mokepon => {
         opcionDeMokepones = `
         <input type="radio" name="mascota" id=${Mokepon.nombre} />
             <label class="tarjeta-mascota" for=${Mokepon.nombre}>
                 <p>${Mokepon.nombre}</p>
-                <img src=${Mokepon.foto}
-                } alt=${Mokepon.nombre}>
+                <img src=${Mokepon.foto} alt=${Mokepon.nombre}>
             </label>
         `
         contenedorTarjetas.innerHTML += opcionDeMokepones
@@ -134,7 +151,6 @@ function iniciarJuego() {
         inputGreninja = document.getElementById('Greninja')
         inputCharizard = document.getElementById('Charizard')
         inputVenusaur = document.getElementById('Venuzaur')
-
     });
 
     sectionReiniciar.style.display = 'none'
@@ -147,9 +163,7 @@ function seleccionarMascotaJugador() {
     if (!inputGreninja.checked && !inputCharizard.checked && !inputVenusaur.checked) {
         alert('Selecciona una mascota')
         return
-    }
-       
-    //sectionSeleccionarAtaque.style.display = 'flex'
+    }     
     sectionSeleccionarMascota.style.display = 'none'
     sectionVerMapa.style.display = "flex"
 
@@ -165,8 +179,7 @@ function seleccionarMascotaJugador() {
     }
 
     extraerAtaques(mascotaJugador)
-    seleccionarMascotaEnemigo()
-        iniciarMapa()
+    iniciarMapa()
 }
 
 function extraerAtaques(mascotaJugador) {
@@ -180,19 +193,18 @@ function extraerAtaques(mascotaJugador) {
 }
 
 function mostrarAtaques(ataques) {
+    contenedorAtaques.innerHTML = ""; // Limpia antes de agregar
     ataques.forEach(ataque => {
         ataquesMokepon = `
             <button id=${ataque.id} class="boton-ataques Bataque">${ataque.nombre}</button>
-        `
-        contenedorAtaques.innerHTML += ataquesMokepon
-    })
-    botonFuego = document.getElementById('boton-fuego')
-    botonAgua = document.getElementById('boton-agua')
-    botonTierra = document.getElementById('boton-tierra')
-    botones = document.querySelectorAll('.Bataque')
-
-
-
+        `;
+        contenedorAtaques.innerHTML += ataquesMokepon;
+    });
+    botonFuego = document.getElementById('boton-fuego');
+    botonAgua = document.getElementById('boton-agua');
+    botonTierra = document.getElementById('boton-tierra');
+    botones = document.querySelectorAll('.Bataque');
+    secuenciaDeAtaque(); // Solo aquí
 }
 function secuenciaDeAtaque(){
     botones.forEach(boton => {
@@ -220,27 +232,14 @@ function secuenciaDeAtaque(){
 
 }
 
-function seleccionarMascotaEnemigo() {
-    let mascotaAleatoria = aleatorio(0,mokepones.length - 1)
-
-    spanMascotaEnemigo.innerHTML = mokepones[mascotaAleatoria].nombre
-    ataquesMokeponEnemigo = mokepones[mascotaAleatoria].ataques
-
-    secuenciaDeAtaque()
-
+function seleccionarMascotaEnemigo(enemigo) {
+    spanMascotaEnemigo.innerHTML = enemigo.nombre
+    ataquesMokeponEnemigo = enemigo.ataques
 }
 
 function ataqueAleatorioEnemigo() {
-    let ataqueAleatorio = aleatorio(0, ataquesMokeponEnemigo.length -1)
-    
-    if (ataqueAleatorio === 0 || ataqueAleatorio === 1) {
-        ataqueEnemigo.push('Lanzallamas')
-    } else if (ataqueAleatorio === 3 || ataqueAleatorio === 4) {
-        ataqueEnemigo.push('Hidropulso')
-    } else {
-        ataqueEnemigo.push('Tetratemblor')
-    }
-
+    let ataqueAleatorio = aleatorio(0, ataquesMokeponEnemigo.length - 1)
+    ataqueEnemigo.push(ataquesMokeponEnemigo[ataqueAleatorio].nombre)
     console.log(ataqueEnemigo)
     iniciarPelea()
 }
@@ -257,42 +256,42 @@ function indexBothPlayers(jugador, enemigo){
 }
 
 function combate() {
-
     for (let index = 0; index < ataqueJugador.length; index++) {
-        if(ataqueJugador[index] == ataqueEnemigo[index]){
+            if (ataqueJugador[index] == ataqueEnemigo[index]) {
             indexBothPlayers(index, index)
             crearMensaje("EMPATE")
-        }else if(ataqueJugador[index] == "Lanzallamas" && ataqueEnemigo[index] == "Tetratemblor"){
+        } else if (ataqueJugador[index] == "Lanzallamas" && ataqueEnemigo[index] == "Tetratemblor") {
             indexBothPlayers(index, index)
             crearMensaje("GANASTE")
             victoriasJugador++
             spanVidasJugador.innerHTML = victoriasJugador
-        }else if(ataqueJugador[index] == "Tetrateblor" && ataqueEnemigo[index] == "Hidropulso"){
+        } else if (ataqueJugador[index] == "Tetratemblor" && ataqueEnemigo[index] == "Hidropulso") {
             indexBothPlayers(index, index)
             crearMensaje("GANASTE")
             victoriasJugador++
             spanVidasJugador.innerHTML = victoriasJugador
-        }else if(ataqueJugador[index] == "Hidropulso" && ataqueEnemigo[index] == "Lanzallamas"){
+        } else if (ataqueJugador[index] == "Hidropulso" && ataqueEnemigo[index] == "Lanzallamas") {
             indexBothPlayers(index, index)
             crearMensaje("GANASTE")
             victoriasJugador++
             spanVidasJugador.innerHTML = victoriasJugador
-        }else{
+        } else {
             indexBothPlayers(index, index)
             crearMensaje("PERDISTE")
             victoriasEnemigo++
             spanVidasEnemigo.innerHTML = victoriasEnemigo
         }
-        
     }
     revisarVidas()
 }
 
 function revisarVidas() {
-    if (vidasEnemigo == 0) {
+    if (victoriasJugador > victoriasEnemigo) {
         crearMensajeFinal("FELICITACIONES! Ganaste :)")
-    } else if (vidasJugador == 0) {
+    } else if (victoriasEnemigo > victoriasJugador) {
         crearMensajeFinal('Lo siento, perdiste :(')
+    }else {
+        crearMensajeFinal("Esto fue un empate")
     }
 }
 
@@ -408,7 +407,13 @@ function obtenerObjetoMascota(){
     }
 }
 
+var colisionDetectada = false
+
 function revisarColision(enemigo){
+if(colisionDetectada) {
+    return
+}
+
 let arribaEnemigo = enemigo.y
 let abajoEnemigo = enemigo.y + enemigo.alto
 let derechaEnemigo = enemigo.x + enemigo.ancho
@@ -425,8 +430,12 @@ let izquierdaMascota = mascotaJugadorObjeto.x
         izquierdaMascota > derechaEnemigo){
             return
         }
+    colisionDetectada = true
     detenerMovimiento()
-    alert("Hay colision con " + enemigo.nombre)
+    clearInterval(intervalo)
+    sectionSeleccionarAtaque.style.display = 'flex'
+    sectionVerMapa.style.display = "none"
+    seleccionarMascotaEnemigo(enemigo)
 }
 
 window.addEventListener('load', iniciarJuego)
