@@ -55,7 +55,7 @@ mapabkg.src = "mokemap.png"
 
 var alturaBuscada
 var anchoDelMappa = window.innerWidth - 50
-var anchoMaximoDelMapa = 800
+var anchoMaximoDelMapa = 750
 if(anchoDelMappa > anchoMaximoDelMapa){
     anchoDelMappa = anchoMaximoDelMapa - 50
 }
