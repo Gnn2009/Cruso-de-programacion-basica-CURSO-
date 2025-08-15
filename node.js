@@ -2,17 +2,18 @@ var express = require('express');
 
 var app= express()
 
-var jugadores = []
-class Jugador {
+var jugadoresArray = []
+
+class jugadores {
     constructor(id){
         this.id = id
     } 
 }
 
 app.get("/unirse", (req, res) => {
-    const id = `${Math.random()}`
-    const jugador = new Jugador(id)
-    jugadores.push(jugador)
+    const id = Math.random().toString().substring(2)
+    const jugador = new jugadores(id)
+    jugadoresArray.push(jugador)
 
     res.setHeader('Access-Control-Allow-Origin', "*");
     res.send(id)

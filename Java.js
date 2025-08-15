@@ -181,7 +181,7 @@ function unirseAlJuego(){
             .then((res) => {
                 if (res.ok) {
                     res.text()
-                        .then(function(res) {
+                        .then((res) => {
                             console.log(res)
                         })
                 }
