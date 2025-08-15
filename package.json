@@ -1,0 +1,22 @@
+{
+  "name": "cruso-de-programacion-basica-curso-",
+  "version": "1.0.0",
+  "description": "",
+  "main": "node.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gnn2009/Cruso-de-programacion-basica-CURSO-.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gnn2009/Cruso-de-programacion-basica-CURSO-/issues"
+  },
+  "homepage": "https://github.com/Gnn2009/Cruso-de-programacion-basica-CURSO-#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
