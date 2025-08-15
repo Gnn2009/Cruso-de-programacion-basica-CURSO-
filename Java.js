@@ -169,7 +169,9 @@ function iniciarJuego() {
     sectionReiniciar.style.display = 'none'
     
     botonMascotaJugador.addEventListener('click', seleccionarMascotaJugador)
-    botonReiniciar.addEventListener('click', reiniciarJuego)
+    botonReiniciar.addEventListener('click', ()=>{
+        location.reload()
+    })
 }
 
 function seleccionarMascotaJugador() {
@@ -333,11 +335,6 @@ function crearMensajeFinal(resultadoFinal) {
 
     sectionReiniciar.style.display = 'flex'
 }
-
-function reiniciarJuego() {
-    location.reload()
-}
-
 function aleatorio(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
