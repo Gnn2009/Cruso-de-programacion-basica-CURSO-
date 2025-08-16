@@ -183,6 +183,7 @@ function unirseAlJuego(){
                     res.text()
                         .then((res) => {
                             console.log(res)
+                            jugadorId = res
                         })
                 }
             })
@@ -206,9 +207,22 @@ function seleccionarMascotaJugador() {
         spanMascotaJugador.innerHTML = inputVenusaur.id
         mascotaJugador = inputVenusaur.id
     }
-
+    seleccionarMokepon(mascotaJugador)
     extraerAtaques(mascotaJugador)
     iniciarMapa()
+}
+
+var jugadorId = null
+function seleccionarMokepon(mascotaJugador) {
+    fetch(`http://localhost:8080/mokepon/${jugadorId}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            mokepon: mascotaJugador
+        })
+    })
 }
 
 function extraerAtaques(mascotaJugador) {
