@@ -145,8 +145,9 @@ VenusaurEnemigo .ataques.push(
     {nombre: "Hidropulso", id:"boton-agua"},
     {nombre: "Lanzallamas", id:"boton-fuego"},
 )
-mokepones.push(Greninja,Charizard,Venusaur  )
+mokepones.push(Greninja,Charizard,Venusaur)
 
+var jugadorId = null
 function iniciarJuego() {
     sectionSeleccionarAtaque.style.display = 'none'
     sectionVerMapa.style.display = "none"
@@ -212,7 +213,6 @@ function seleccionarMascotaJugador() {
     iniciarMapa()
 }
 
-var jugadorId = null
 function seleccionarMokepon(mascotaJugador) {
     fetch(`http://localhost:8080/mokepon/${jugadorId}`, {
         method: "POST",
@@ -379,6 +379,7 @@ function pintarCanvas(){
     mapa.height
 
     )
+    enviarPosicion(mascotaJugadorObjeto.x, mascotaJugadorObjeto.y)
     mascotaJugadorObjeto.pintarMokepon()
     GreninjaEnemigo.pintarMokepon()
     CharizardEnemigo.pintarMokepon()
@@ -389,6 +390,18 @@ function pintarCanvas(){
         revisarColision(VenusaurEnemigo)
     }
 }
+
+    function enviarPosicion(x,y){
+        fetch( `http://localhost:8080/mokepon/${jugadorId}/posicion`, {
+            method: "POST",
+            headrers: {
+                "Content-Type": "application/json"},
+            body: JSON.stringify({
+                x,
+                y
+            })
+        })
+    }
 
 function moverDerecha(){
     mascotaJugadorObjeto.velocidadX = 5 
