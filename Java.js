@@ -67,7 +67,8 @@ var anchoMokepones = anchoDelMappa / 8
 var altoMokepones = alturaBuscada / 7
 
 class Mokepon{
-    constructor(nombre, foto, vida,fotoMapa, ){
+    constructor(nombre, foto, vida,fotoMapa,id =null ){
+        this.id = id
         this.nombre = nombre
         this.foto = foto
         this.vida = vida
@@ -95,56 +96,35 @@ class Mokepon{
 
 let Greninja = new Mokepon("Greninja", "Greninja.png", 5, "Greninja.png")
 let Charizard = new Mokepon("Charizard", "Charizard.png", 5,"Charizard.png")
-let Venusaur = new Mokepon("Venuzaur", "Venuzaur.png", 5, "Venuzaur.png")
+let Venusaur = new Mokepon("Venusaur", "Venusaur.png", 5, "Venusaur.png")
 
-let GreninjaEnemigo = new Mokepon("Greninja", "Greninja.png", 5, "Greninja.png",)
-let CharizardEnemigo = new Mokepon("Charizard", "Charizard.png", 5,"Charizard.png",)
-let VenusaurEnemigo = new Mokepon("Venuzaur", "Venuzaur.png", 5, "Venuzaur.png",)
+const greninjaAtaques =[
+    {nombre: "Hidropulso", id:"boton-agua"},
+    {nombre: "Hidropulso", id:"boton-agua"},
+    {nombre: "Hidropulso", id:"boton-agua"},
+    {nombre: "Lanzallamas", id:"boton-fuego"},
+    {nombre: "Tetratemblor", id:"boton-tierra"},
+]
+Greninja.ataques.push(greninjaAtaques)
 
+const charizardAtaques = [
+    {nombre: "Lanzallamas", id:"boton-fuego"},
+    {nombre: "Lanzallamas", id:"boton-fuego"},
+    {nombre: "Lanzallamas", id:"boton-fuego"},
+    {nombre: "Hidropulso", id:"boton-agua"},
+    {nombre: "Tetratemblor", id:"boton-tierra"},
+]
+Charizard.ataques.push(charizardAtaques)
 
-Greninja.ataques.push(
-    {nombre: "Hidropulso", id:"boton-agua"},
-    {nombre: "Hidropulso", id:"boton-agua"},
+const venusaurAtaques =[    
+    {nombre: "Tetratemblor", id:"boton-tierra"},
+    {nombre: "Tetratemblor", id:"boton-tierra"},
+    {nombre: "Tetratemblor", id:"boton-tierra"},
     {nombre: "Hidropulso", id:"boton-agua"},
     {nombre: "Lanzallamas", id:"boton-fuego"},
-    {nombre: "Tetratemblor", id:"boton-tierra"},
-)
-GreninjaEnemigo.ataques.push(
-    {nombre: "Hidropulso", id:"boton-agua"},
-    {nombre: "Hidropulso", id:"boton-agua"},
-    {nombre: "Hidropulso", id:"boton-agua"},
-    {nombre: "Lanzallamas", id:"boton-fuego"},
-    {nombre: "Tetratemblor", id:"boton-tierra"},
-)
+]
+Venusaur.ataques.push(venusaurAtaques)
 
-Charizard.ataques.push(
-    {nombre: "Lanzallamas", id:"boton-fuego"},
-    {nombre: "Lanzallamas", id:"boton-fuego"},
-    {nombre: "Lanzallamas", id:"boton-fuego"},
-    {nombre: "Hidropulso", id:"boton-agua"},
-    {nombre: "Tetratemblor", id:"boton-tierra"},
-)
-CharizardEnemigo.ataques.push(
-    {nombre: "Lanzallamas", id:"boton-fuego"},
-    {nombre: "Lanzallamas", id:"boton-fuego"},
-    {nombre: "Lanzallamas", id:"boton-fuego"},
-    {nombre: "Hidropulso", id:"boton-agua"},
-    {nombre: "Tetratemblor", id:"boton-tierra"},
-)
-Venusaur.ataques.push(
-    {nombre: "Tetratemblor", id:"boton-tierra"},
-    {nombre: "Tetratemblor", id:"boton-tierra"},
-    {nombre: "Tetratemblor", id:"boton-tierra"},
-    {nombre: "Hidropulso", id:"boton-agua"},
-    {nombre: "Lanzallamas", id:"boton-fuego"},
-)
-VenusaurEnemigo .ataques.push(
-    {nombre: "Tetratemblor", id:"boton-tierra"},
-    {nombre: "Tetratemblor", id:"boton-tierra"},
-    {nombre: "Tetratemblor", id:"boton-tierra"},
-    {nombre: "Hidropulso", id:"boton-agua"},
-    {nombre: "Lanzallamas", id:"boton-fuego"},
-)
 mokepones.push(Greninja,Charizard,Venusaur)
 
 var jugadorId = null
@@ -164,7 +144,7 @@ function iniciarJuego() {
 
         inputGreninja = document.getElementById('Greninja')
         inputCharizard = document.getElementById('Charizard')
-        inputVenusaur = document.getElementById('Venuzaur')
+        inputVenusaur = document.getElementById('Venusaur')
     });
 
     sectionReiniciar.style.display = 'none'
@@ -379,27 +359,46 @@ function pintarCanvas(){
     mapa.height
 
     )
-    enviarPosicion(mascotaJugadorObjeto.x, mascotaJugadorObjeto.y)
     mascotaJugadorObjeto.pintarMokepon()
-    GreninjaEnemigo.pintarMokepon()
-    CharizardEnemigo.pintarMokepon()
-    VenusaurEnemigo.pintarMokepon()
+    enviarPosicion(mascotaJugadorObjeto.x, mascotaJugadorObjeto.y)
+
     if(mascotaJugadorObjeto.x !== 0 || mascotaJugadorObjeto !== 0){
-        revisarColision(GreninjaEnemigo)
-        revisarColision(CharizardEnemigo)
-        revisarColision(VenusaurEnemigo)
     }
 }
 
     function enviarPosicion(x,y){
         fetch( `http://localhost:8080/mokepon/${jugadorId}/posicion`, {
             method: "POST",
-            headrers: {
+            headers: {
                 "Content-Type": "application/json"},
             body: JSON.stringify({
                 x,
                 y
             })
+        })
+        .then(function (res){
+            if(res.ok){
+                res.json()
+                .then(({enemigos}) => {
+                    console.log(enemigos)
+                    let mokeponEnemigo
+                    enemigos.forEach((enm)=>{
+                        const mokeponNombre = enm.mokepon.nombre
+                        if(mokeponNombre == 'Greninja'){
+                            mokeponEnemigo = new Mokepon("Greninja", "Greninja.png", 5, "Greninja.png")
+                        }else if(mokeponNombre == "Charizard"){
+                            mokeponEnemigo = new Mokepon("Charizard", "Charizard.png", 5,"Charizard.png")
+                        }else if(mokeponNombre == 'Venusaur'){
+                            mokeponEnemigo = new Mokepon("Venusaur", "Venusaur.png", 5, "Venusaur.png")
+                        }
+                        mokeponEnemigo.x = enm.x
+                        mokeponEnemigo.y = enm.y
+
+                        mokeponEnemigo.pintarMokepon()
+                    })
+                    
+                })
+            }
         })
     }
 
