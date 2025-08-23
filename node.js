@@ -19,6 +19,9 @@ class jugadores {
         this.x = x
         this.y = y
     }
+    asignarAtaques(ataques){
+        this.ataques = ataques
+    }
 }
 
 class mokepon {
@@ -68,4 +71,15 @@ app.post("/mokepon/:jugadorId/posicion", (req,res) => {
 
 app.listen(8080, () =>{
     console.log("Servidor corriendo en el puerto 8080")
+})
+
+app.post("/mokepon/:jugadorId/ataques", (req,res) => {
+    const jugadorId = req.params.jugadorId || ""
+    const ataques = req.body.ataques || []
+
+    const jugadorIndex = jugadoresArray.findIndex((jugador) => jugador.id === jugadorId)
+    if(jugadorIndex >= 0){
+        jugadoresArray[jugadorIndex].asignarAtaques(ataques)
+    }
+    res.end()
 })

@@ -20,7 +20,11 @@ const contenedorAtaques = document.getElementById("contenedor-ataques")
 const sectionVerMapa = document.getElementById("ver-mapa")
 const mapa = document.getElementById("mapa")
 
+var jugadorId = null
+var enemigoId = null
+
 var mokepones = []
+var mokeponesEnemigos = []
 
 var ataqueJugador = []
 var ataqueEnemigo= []
@@ -105,7 +109,7 @@ const greninjaAtaques =[
     {nombre: "Lanzallamas", id:"boton-fuego"},
     {nombre: "Tetratemblor", id:"boton-tierra"},
 ]
-Greninja.ataques.push(greninjaAtaques)
+Greninja.ataques.push(...greninjaAtaques)
 
 const charizardAtaques = [
     {nombre: "Lanzallamas", id:"boton-fuego"},
@@ -114,7 +118,7 @@ const charizardAtaques = [
     {nombre: "Hidropulso", id:"boton-agua"},
     {nombre: "Tetratemblor", id:"boton-tierra"},
 ]
-Charizard.ataques.push(charizardAtaques)
+Charizard.ataques.push(...charizardAtaques)
 
 const venusaurAtaques =[    
     {nombre: "Tetratemblor", id:"boton-tierra"},
@@ -123,11 +127,10 @@ const venusaurAtaques =[
     {nombre: "Hidropulso", id:"boton-agua"},
     {nombre: "Lanzallamas", id:"boton-fuego"},
 ]
-Venusaur.ataques.push(venusaurAtaques)
+Venusaur.ataques.push(...venusaurAtaques)
 
 mokepones.push(Greninja,Charizard,Venusaur)
 
-var jugadorId = null
 function iniciarJuego() {
     sectionSeleccionarAtaque.style.display = 'none'
     sectionVerMapa.style.display = "none"
@@ -216,7 +219,6 @@ function extraerAtaques(mascotaJugador) {
 }
 
 function mostrarAtaques(ataques) {
-    contenedorAtaques.innerHTML = ""; // Limpia antes de agregar
     ataques.forEach(ataque => {
         ataquesMokepon = `
             <button id=${ataque.id} class="boton-ataques Bataque">${ataque.nombre}</button>
@@ -248,11 +250,23 @@ function secuenciaDeAtaque(){
                 boton.style.backgroundColor = '#112f58'
                 boton.disabled = true
             }
-            ataqueAleatorioEnemigo()
+            if(ataqueJugador.length === 5){
+                enviarAtaques()
+            }
         })
     })
+}
 
-
+function enviarAtaques(){
+    fetch(`http://localhost:8080/mokepon/${jugadorId}/ataques`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        bofdy: JSON.stringify({
+            ataques: ataqueJugador
+        })
+    })
 }
 
 function seleccionarMascotaEnemigo(enemigo) {
@@ -357,13 +371,15 @@ function pintarCanvas(){
     0,
     mapa.width,
     mapa.height
-
     )
     mascotaJugadorObjeto.pintarMokepon()
+
     enviarPosicion(mascotaJugadorObjeto.x, mascotaJugadorObjeto.y)
 
-    if(mascotaJugadorObjeto.x !== 0 || mascotaJugadorObjeto !== 0){
-    }
+    mokeponesEnemigos.forEach(function(mokepon){
+        mokepon.pintarMokepon()
+        revisarColision(mokepon)
+    })
 }
 
     function enviarPosicion(x,y){
@@ -381,20 +397,20 @@ function pintarCanvas(){
                 res.json()
                 .then(({enemigos}) => {
                     console.log(enemigos)
-                    let mokeponEnemigo
-                    enemigos.forEach((enm)=>{
-                        const mokeponNombre = enm.mokepon.nombre
+                        mokeponesEnemigos = enemigos.map((enemigo) => {
+                        const mokeponNombre = enemigo.mokepon.nombre
+                        let mokeponEnemigo
                         if(mokeponNombre == 'Greninja'){
-                            mokeponEnemigo = new Mokepon("Greninja", "Greninja.png", 5, "Greninja.png")
+                            mokeponEnemigo = new Mokepon("Greninja", "Greninja.png", 5, "Greninja.png", enemigoId)
                         }else if(mokeponNombre == "Charizard"){
-                            mokeponEnemigo = new Mokepon("Charizard", "Charizard.png", 5,"Charizard.png")
+                            mokeponEnemigo = new Mokepon("Charizard", "Charizard.png", 5,"Charizard.png", enemigoId)
                         }else if(mokeponNombre == 'Venusaur'){
-                            mokeponEnemigo = new Mokepon("Venusaur", "Venusaur.png", 5, "Venusaur.png")
+                            mokeponEnemigo = new Mokepon("Venusaur", "Venusaur.png", 5, "Venusaur.png", enemigoId)
                         }
-                        mokeponEnemigo.x = enm.x
-                        mokeponEnemigo.y = enm.y
+                        mokeponEnemigo.x = enemigo.x
+                        mokeponEnemigo.y = enemigo.y
 
-                        mokeponEnemigo.pintarMokepon()
+                        return mokeponEnemigo
                     })
                     
                 })
@@ -482,6 +498,7 @@ let izquierdaMascota = mascotaJugadorObjeto.x
     colisionDetectada = true
     detenerMovimiento()
     clearInterval(intervalo)
+    enemigoId = enemigo.id
     sectionSeleccionarAtaque.style.display = 'flex'
     sectionVerMapa.style.display = "none"
     seleccionarMascotaEnemigo(enemigo)
