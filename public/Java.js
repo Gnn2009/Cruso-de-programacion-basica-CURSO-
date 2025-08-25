@@ -263,9 +263,27 @@ function enviarAtaques(){
         headers: {
             "Content-Type": "application/json"
         },
-        bofdy: JSON.stringify({
+        body: JSON.stringify({
             ataques: ataqueJugador
         })
+    })
+    if (enemigoId !== null) {
+        intervalo = setInterval(obtenerAtaques, 50)
+    }}
+
+function obtenerAtaques(){
+    fetch(`http://localhost:8080/mokepon/${enemigoId}/ataques`)
+    .then(function (res){
+        if(res.ok){
+            res.json()
+                .then(({ataques}) => {
+                    ataqueEnemigo = ataques
+                    // Solo ejecuta combate si ambos arrays tienen 5 ataques
+                    if (ataqueEnemigo.length === 5 && ataqueJugador.length === 5) {
+                        combate()
+                    }
+                })
+        }
     })
 }
 
@@ -294,6 +312,7 @@ function indexBothPlayers(jugador, enemigo){
 }
 
 function combate() {
+    clearInterval(intervalo)
     for (let index = 0; index < ataqueJugador.length; index++) {
             if (ataqueJugador[index] == ataqueEnemigo[index]) {
             indexBothPlayers(index, index)
@@ -397,22 +416,21 @@ function pintarCanvas(){
                 res.json()
                 .then(({enemigos}) => {
                     console.log(enemigos)
-                        mokeponesEnemigos = enemigos.map((enemigo) => {
+                    mokeponesEnemigos = enemigos.map((enemigo) => {
                         const mokeponNombre = enemigo.mokepon.nombre
                         let mokeponEnemigo
                         if(mokeponNombre == 'Greninja'){
-                            mokeponEnemigo = new Mokepon("Greninja", "Greninja.png", 5, "Greninja.png", enemigoId)
+                            mokeponEnemigo = new Mokepon("Greninja", "Greninja.png", 5, "Greninja.png", enemigo.id)
                         }else if(mokeponNombre == "Charizard"){
-                            mokeponEnemigo = new Mokepon("Charizard", "Charizard.png", 5,"Charizard.png", enemigoId)
+                            mokeponEnemigo = new Mokepon("Charizard", "Charizard.png", 5,"Charizard.png", enemigo.id)
                         }else if(mokeponNombre == 'Venusaur'){
-                            mokeponEnemigo = new Mokepon("Venusaur", "Venusaur.png", 5, "Venusaur.png", enemigoId)
+                            mokeponEnemigo = new Mokepon("Venusaur", "Venusaur.png", 5, "Venusaur.png", enemigo.id)
                         }
                         mokeponEnemigo.x = enemigo.x
                         mokeponEnemigo.y = enemigo.y
 
                         return mokeponEnemigo
                     })
-                    
                 })
             }
         })

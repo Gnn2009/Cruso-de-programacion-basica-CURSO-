@@ -2,6 +2,8 @@ var express = require('express');
 var cors = require('cors');
 
 var app= express()
+hhtp://gddell-Thin-15-B12VE:8080
+app.use (express.static('public'));
 app.use(cors());
 app.use(express.json());
 
@@ -69,10 +71,6 @@ app.post("/mokepon/:jugadorId/posicion", (req,res) => {
     res.end()
 })
 
-app.listen(8080, () =>{
-    console.log("Servidor corriendo en el puerto 8080")
-})
-
 app.post("/mokepon/:jugadorId/ataques", (req,res) => {
     const jugadorId = req.params.jugadorId || ""
     const ataques = req.body.ataques || []
@@ -83,3 +81,22 @@ app.post("/mokepon/:jugadorId/ataques", (req,res) => {
     }
     res.end()
 })
+
+app.get("/mokepon/:jugadorId/ataques", (req,res) => {
+    const JugadorId = req.params.jugadorId || ""
+    const jugador = jugadoresArray.find((jugador) => jugador.id === JugadorId)
+    
+    // Agrega esta validación para evitar el error
+    if (jugador) {
+        res.send({
+            ataques: jugador.ataques || []
+        })
+    } else {
+        res.status(404).send('Jugador no encontrado');
+    }
+})
+
+app.listen(8080, () =>{
+    console.log("Servidor corriendo en el puerto 8080")
+})
+
